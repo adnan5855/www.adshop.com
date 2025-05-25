@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>User Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #eef2f7;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+    header {
+      background-color: #333;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+    }
+    nav a {
+      color: white;
+      margin-left: 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    main {
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Dashboard</h1>
+    <nav>
+      <a href="welcome.html">Home</a>
+      <a href="#" id="logoutLink">Logout</a>
+    </nav>
+  </header>
+  <main>
+    <h2>Hello, <span id="userNameDisplay"></span>!</h2>
+    <p>Welcome to your dashboard. Here you can add your features like profile editing, settings, etc.</p>
+  </main>
+
+  <script>
+    const userNameDisplay = document.getElementById('userNameDisplay');
+    const loggedInUser = localStorage.getItem('loggedInUser');
+
+    if(loggedInUser) {
+      userNameDisplay.textContent = loggedInUser;
+    } else {
+      // Redirect to login if not logged in
+      window.location.href = "index.html";
+    }
+
+    document.getElementById('logoutLink').addEventListener('click', () => {
+      localStorage.removeItem('loggedInUser');
+      window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>

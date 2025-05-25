@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Welcome</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      background-color: #dff0d8;
+      color: #3c763d;
+      flex-direction: column;
+    }
+    h1 {
+      font-size: 2.5em;
+    }
+    a {
+      margin-top: 20px;
+      color: #007bff;
+      text-decoration: none;
+      font-size: 18px;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="welcomeMsg">Welcome!</h1>
+  <a href="index.html" id="logoutBtn">Logout</a>
+
+  <script>
+    const welcomeMsg = document.getElementById('welcomeMsg');
+    const loggedInUser = localStorage.getItem('loggedInUser');
+
+    if(loggedInUser) {
+      welcomeMsg.textContent = `Welcome, ${loggedInUser}!`;
+    } else {
+      // If no logged in user found, redirect to login
+      window.location.href = "index.html";
+    }
+
+    // Clear login on logout
+    document.getElementById('logoutBtn').addEventListener('click', () =>
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('loggedInUser');
+      window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sign Up with Phone Verification</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background: #f7f7f7;
+  }
+  .container {
+    background: white;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 320px;
+  }
+  input[type="text"], input[type="password"], input[type="tel"], input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0 16px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  button {
+    width: 100%;
+    padding: 10px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  button:hover {
+    background: #218838;
+    cursor: pointer;
+  }
+  .hidden {
+    display: none;
+  }
+  .message {
+    margin-bottom: 10px;
+    color: green;
+  }
+  .error {
+    color: red;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>Sign Up</h2>
+  <form id="signupForm">
+    <input type="text" id="username" placeholder="Username" required />
+    <input type="tel" id="phone" placeholder="Phone Number" required pattern="[0-9]{10}" />
+    <button type="button" id="sendCodeBtn">Send Verification Code</button>
+    
+    <div id="codeSection" class="hidden">
+      <input type="number" id="verificationCodeInput" placeholder="Enter Verification Code" required />
+      <button type="submit">Verify & Sign Up</button>
+    </div>
+
+    <p id="message" class="message"></p>
+    <p id="error" class="error"></p>
+
+    <p style="margin-top: 15px; text-align:center;">
+      Already have an account? <a href="index.html">Login</a>
+    </p>
+  </form>
+</div>
+
+<script>
+  const sendCodeBtn = document.getElementById('sendCodeBtn');
+  const codeSection = document.getElementById('codeSection');
+  const message = document.getElementById('message');
+  const error = document.getElementById('error');
+  const signupForm = document.getElementById('signupForm');
+  let generatedCode = null;
+
+  sendCodeBtn.addEventListener('click', () => {
+    const phone = document.getElementById('phone').value.trim();
+    const username = document.getElementById('username').value.trim();
+
+    message.textContent = '';
+    error.textContent = '';
+
+    if(username === '') {
+      error.textContent = 'Please enter username first.';
+      return;
+    }
+
+    const phoneRegex = /^[0-9]{10}$/;
+    if(!phoneRegex.test(phone)) {
+      error.textContent = 'Enter valid 10-digit phone number.';
+      return;
+    }
+
+    // Generate 6 digit random code
+    generatedCode = Math.floor(100000 + Math.random() * 900000);
+    
+    // Simulate sending code - show it on screen for demo
+    message.textContent = `Verification code sent! (For demo, code is: ${generatedCode})`;
+
+    // Show code input section
+    codeSection.classList.remove('hidden');
+  });
+
+  signupForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const inputCode = document.getElementById('verificationCodeInput').value.trim();
+
+    if(inputCode === '') {
+      error.textContent = 'Please enter verification code.';
+      return;
+    }
+
+    if(inputCode == generatedCode) {
+      alert('Phone verified! Signup successful.');
+      localStorage.setItem('loggedInUser', document.getElementById('username').value.trim());
+      window.location.href = "welcome.html";
+    } else {
+      error.textContent = 'Invalid verification code. Try again.';
+    }
+  });
+</script>
+</body>
+</html>
